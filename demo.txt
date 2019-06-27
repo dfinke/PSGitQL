@@ -1,0 +1,18 @@
+pushd
+cd c:\PowerShell
+# Looking at the PowerShell repo
+
+''
+psgitql "select author,date from commits" | more
+
+psgitql "select author,date from commits limit 10"
+
+psgitql "select author,date,message from commits limit 10"
+
+psgitql "select author,date,message from commits where author = 'Ilya'"
+
+psgitql "select author,date,message from commits where date = '2019-06-25'"
+
+psgitql "select author,date,message from commits where date = '2019-06-25'" | Export-Excel
+
+popd
