@@ -6,8 +6,9 @@ Inspired by [gitql](https://github.com/cloudson/gitql).
 
 <!-- [![IMAGE ALT TEXT](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE "Video Title") -->
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/VJBXZTVqTj8/0.jpg)](https://youtu.be/VJBXZTVqTj8)
+## Looking at the PowerShell Repo
 
+![](images/psgitql.gif)
 
 ## Example Commands
 * `Invoke-GitQuery 'select hash, author, message from commits limit 3'`
