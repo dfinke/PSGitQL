@@ -8,7 +8,7 @@ Inspired by [gitql](https://github.com/cloudson/gitql).
 
 ## Looking at the PowerShell Repo
 
-![](images/psgitql.gif)
+![](https://raw.githubusercontent.com/dfinke/PSGitQL/master/images/PSGitQL.gif)
 
 ## Example Commands
 * `Invoke-GitQuery 'select hash, author, message from commits limit 3'`
