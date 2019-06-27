@@ -123,18 +123,26 @@ function Invoke-GitQuery {
         switch ($r.where.propertyname) {
             'author' { $where = '--{0}{1}{2}' -f $r.where.propertyname, $r.where.operation, $r.where.value }
             'date' {
-                if ($r.where.operation -eq "=") {
-                    $targetValue = $r.where.value -replace "'", ""
-                    $date = get-date $targetValue
+                function Get-GitDate {
+                    param($targetDate)
 
-                    $dateFmt = "yyy-MM-dd"
-                    $where = '--after="{0}" --before="{1}"' -f $date.AddDays(-1).ToString($dateFmt), $date.ToString($dateFmt)
+                    $targetValue = $r.where.value -replace "'", ""
+                    Get-Date $targetValue
+                }
+
+                if ($r.where.operation -eq "=") {
+                    $date = Get-GitDate
+                    $dateFmt = "yyyy-MM-dd"
+                    $where = '--after="{0}" --before="{1}"' -f $date.ToString($dateFmt + " 00:00"), $date.ToString($dateFmt + " 23:59")
                 }
                 else {
                     if ($r.where.operation -eq ">") { $when = "after" }
                     if ($r.where.operation -eq "<") { $when = "before" }
-                    $where = '--{0}={1}' -f $when, $r.where.value
+
+                    $date = Get-GitDate
+                    $where = '--{0}={1}' -f $when, $date.ToString("yyyy-MM-dd")
                 }
+                $where += " --date=local"
             }
         }
     }
@@ -146,7 +154,7 @@ function Invoke-GitQuery {
     $gitcmd = 'git log --pretty=format:"{0}" {1} {2}' -f $fmt, $where, $limit
     Write-Verbose $gitcmd
 
-    $result = $gitcmd | iex
+    $result = $gitcmd | Invoke-Expression
     if ($result) {
         ConvertFrom-Csv -Header $r.SelectPropertyNames -Delimiter "`t" -InputObject $result
     }
